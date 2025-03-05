@@ -1,0 +1,44 @@
+name: homzes_app
+description: "marketplace for real estate"
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.6
+  #comparing dart objects
+  equatable: ^2.0.5
+  #service locator
+  get_it: ^7.7.0
+  #make request to api
+  retrofit: ^4.1.0
+  #Hooks
+  flutter_hooks: ^0.20.5
+  
+  dio: ^5.5.0+1
+  dartz: ^0.10.1
+  http: ^1.2.2
+  rxdart: ^0.28.0
+
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+ 
+  bloc_test: ^9.1.7
+  build_runner: ^2.4.13
+  mockito: ^5.4.4
+  mocktail: ^1.0.4
+  flutter_lints: ^4.0.0
+
+
+flutter:
+  uses-material-design: true

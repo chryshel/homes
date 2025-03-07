@@ -1,0 +1,19 @@
+
+    {
+      "title": "Charuki Hotel",
+      "price": 10000,
+      "images": [
+       "https://example.com/image1.jpg",
+      "https://example.com/image2.jpg"
+      ],
+      "location": {
+        "latitude": 40.712776,
+        "longitude": -74.005974
+      },
+      "bathRoomCount": 3,
+      "bedRoomCount": 2
+    }
+
+
+  
+  

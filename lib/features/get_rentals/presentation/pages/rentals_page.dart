@@ -1,83 +1,51 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:homzes_app/features/get_rentals/presentation/bloc/rentals_bloc.dart';
-import 'package:homzes_app/features/get_rentals/presentation/bloc/rentals_event.dart';
-import 'package:homzes_app/features/get_rentals/presentation/bloc/rentals_state.dart';
+import 'package:go_router/go_router.dart';
+import 'package:homzes_app/components/app_bar/common_app_bar.dart';
+import 'package:homzes_app/features/get_rentals/domain/entities/rentals.dart';
+import 'package:homzes_app/features/get_rentals/presentation/components/rentals_detailed_card.dart';
 
 class RentalsPage extends StatelessWidget {
-  const RentalsPage({super.key});
+  final List<RentalsEntity> featuredRentals;
+  const RentalsPage({super.key, required this.featuredRentals});
+
+  static const pathName = '/rentals';
+
+  static final route = GoRoute(
+    path: pathName,
+    builder: (context, state) => MultiBlocProvider(
+      providers: const [],
+      child: RentalsPage(
+        key: state.pageKey,
+        featuredRentals: state.extra as List<RentalsEntity>,
+      ),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xff1D1E22),
-        title: const Text(
-          'Rentals',
-          style: TextStyle(color: Colors.white),
+        backgroundColor: Colors.grey.shade50,
+        appBar: HomzesAppBar(
+          username: "",
+          appBarBackgroundColor: const Color.fromARGB(158, 130, 181, 146),
+          onMenuPressed: () {
+            context.go('/');
+          },
+          hideUserProfile: true,
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<RentalsBloc>().add(OnGetRentals());
-              },
-              child: const Text('Get Rentals'),
-            ),
-
-            //
-
-            const SizedBox(height: 30),
-
-            //
-
-            BlocBuilder<RentalsBloc, RentalsState>(builder: (context, state) {
-              if (state is RentalsLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is RentalsLoaded) {
-                if (kDebugMode) {
-                  print('Hello, Flutter!');
-                  print(state.result.length);
-                }
-
-                return Expanded(
-                  // ✅ Add Expanded to constrain ListView height
-                  child: ListView.builder(
-                    itemCount: state.result.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              "Title: ${state.result[index].title},",
-                              style: TextStyle(color: Colors.amber),
-                            ),
-                            Text(
-                              "Bathroom count: ${state.result[index].bathRoomCount}",
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }
-              if (kDebugMode) {
-                print('state : $state');
-              }
-              return Container();
-            })
-          ],
-        ),
-      ),
-    );
+        body: SafeArea(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: featuredRentals.length,
+            itemBuilder: (context, index) {
+              final rental = featuredRentals[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: RentalCard(rental: rental),
+              );
+            },
+          ),
+        ));
   }
 }
